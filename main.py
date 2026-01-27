@@ -37,3 +37,8 @@ def list_products(db: Session = Depends(get_db)):
 def list_allergens(db: Session = Depends(get_db)):
     """Return all allergens."""
     return db.query(Allergen).order_by(Allergen.description_en).all()
+
+@app.get("/gluten-free", response_model=list[ProductResponse])
+def get_gluten_free_products(db: Session = Depends(get_db)) -> list[Product]:
+    """Return all gluten-free products."""
+    return (db.query(Product).filter(~Product.allergens.any(Allergen.code == "gluten")).all())

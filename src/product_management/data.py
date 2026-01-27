@@ -27,6 +27,7 @@ PRODUCTS = {
     "Frikandel": ["gluten", "soy", "mustard"],
     "Kroket": ["gluten", "milk"],
     "Bread": ["gluten"],
+    "Fishstick": ["fish"],
 }
 
 def load_allergens(db: Session) -> None:
