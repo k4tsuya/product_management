@@ -20,3 +20,8 @@ class ProductResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ProductAllergenView(BaseModel):
+    name: str
+    allergens: list[str]

@@ -2,10 +2,14 @@ annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.12.1
 click==8.3.1
+defusedxml==0.7.1
 fastapi==0.128.0
+fonttools==4.61.1
+fpdf2==2.8.5
 greenlet==3.3.1
 h11==0.16.0
 idna==3.11
+pillow==12.1.0
 pydantic==2.12.5
 pydantic_core==2.41.5
 SQLAlchemy==2.0.46

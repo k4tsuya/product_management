@@ -2,11 +2,13 @@
 
 from fastapi import Depends, FastAPI
 from sqlalchemy.orm import Session
-
+from pathlib import Path
 from src.product_management.data import load_allergens, load_products
 from src.product_management.models import Base, SessionLocal, engine
 from src.product_management.schemas import ProductResponse
-from src.product_management.queries import list_allergens, list_products, get_gluten_free_products
+from src.product_management.queries import list_allergens, list_products, get_gluten_free_products, pdf_list_products
+from src.product_management.pdf_generator import generate_allergen_pdf, ProductAllergenView
+from fastapi.responses import FileResponse
 
 app = FastAPI(title="Snack Bar Product API")
 
@@ -43,3 +45,24 @@ def list_gluten_free_products(db: Session = Depends(get_db)):
 def list_all_allergens(db: Session = Depends(get_db)):
     """Return all allergens."""
     return list_allergens(db)
+
+
+
+BASE_DIR = Path(__file__).resolve().parent
+OUTPUT_DIR = BASE_DIR / "generated"
+OUTPUT_DIR.mkdir(exist_ok=True)
+
+
+@app.get("/products/pdf", response_class=FileResponse)
+def download_products_pdf(db: Session = Depends(get_db)):
+    """Save a PDF of all products and their allergens."""
+    products = pdf_list_products(db)
+
+    file_path = OUTPUT_DIR / "product_allergens.pdf"
+    generate_allergen_pdf(products, str(file_path))
+
+    return FileResponse(
+        path=file_path,
+        media_type="application/pdf",
+        filename="products_allergens.pdf",
+    )
