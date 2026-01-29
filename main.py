@@ -7,7 +7,7 @@ from src.product_management.data import load_allergens, load_products
 from src.product_management.models import Base, SessionLocal, engine
 from src.product_management.schemas import ProductResponse
 from src.product_management.queries import list_allergens, list_products, get_gluten_free_products, pdf_list_products
-from src.product_management.pdf_generator import generate_allergen_pdf, ProductAllergenView
+from src.product_management.pdf_generator import generate_allergen_matrix_pdf
 from fastapi.responses import FileResponse
 
 app = FastAPI(title="Snack Bar Product API")
@@ -59,7 +59,9 @@ def download_products_pdf(db: Session = Depends(get_db)):
     products = pdf_list_products(db)
 
     file_path = OUTPUT_DIR / "product_allergens.pdf"
-    generate_allergen_pdf(products, str(file_path))
+    # generate_allergen_pdf(products, str(file_path))
+    generate_allergen_matrix_pdf(products, str(file_path))
+
 
     return FileResponse(
         path=file_path,
