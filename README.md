@@ -147,10 +147,49 @@ Planned extensions include:
 
 * Product creation via API (`POST /products`)
 * Support for **“may contain traces of”** allergens
-* Financial data (purchase price, retail price)
-* PostgreSQL support
-* Automated tests
 * Exportable allergen reports (PDF)
+
+---
+
+📦 Product data source
+
+This project ships with sample product data for demo and development purposes.
+
+By default, the application loads data from an internal sample dataset:
+
+`SAMPLE_PRODUCTS`
+
+Using real product data
+
+If you want to use your own (real) product data, you can provide it via an external module that is intentionally excluded from version control.
+
+Create a file called:
+
+`src/product_management/product_list.py`
+
+
+Define a variable called products with the same structure as SAMPLE_PRODUCTS:
+
+```python
+products = {
+    "Example product": ["gluten", "milk"],
+    "Another product": ["nuts"],
+    }
+```
+
+
+Make sure this file is git-ignored (it is not included in this repository).
+
+When present, the application will automatically load this data instead of the sample data.
+If the file is not found, the system safely falls back to the sample dataset.
+
+This approach allows:
+
+- running the project out-of-the-box
+
+- keeping real data private
+
+- avoiding configuration or environment variables for simple setups
 
 ---
 

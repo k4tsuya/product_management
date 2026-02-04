@@ -116,6 +116,7 @@ class AllergenMatrixPDF(FPDF):
         allergen_labels = self.get_allergen_labels(language)
         allergen_codes = list(allergen_labels.keys())
 
+
         # Layout constants
         product_col_width = 30
         allergen_col_width = 18
@@ -157,7 +158,13 @@ class AllergenMatrixPDF(FPDF):
             )
 
             for code in allergen_codes:
-                mark = "x" if code in product.allergens else ""
+                sorted(code)
+                if code in product.allergens:
+                    self.set_font('ZapfDingbats', '', 12)
+                else:
+                    self.set_font('Arial', '', 8)
+
+                mark = "4" if code in product.allergens else ""
                 self.cell(
                     allergen_col_width,
                     row_height,
@@ -166,6 +173,8 @@ class AllergenMatrixPDF(FPDF):
                     align="C",
                     fill=True,
                 )
+            self.set_font('Arial', '', 8)
+
 
             self.ln()
 
