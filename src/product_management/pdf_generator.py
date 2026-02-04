@@ -29,9 +29,7 @@ class AllergenMatrixPDF(FPDF):
         self.texts = TEXTS[language]
 
     def get_allergen_labels(self, language: str) -> dict[str, dict[str, str]]:
-        if language not in {"nl", "en"}:
-            raise ValueError("language must be 'nl' or 'en'")
-        language = language
+        language = self.language
         return {
             code: {
             "label": data[language],

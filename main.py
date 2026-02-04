@@ -56,19 +56,20 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 @app.get("/products/pdf", response_class=FileResponse)
 def download_products_pdf(db: Session = Depends(get_db)):
     """Save a PDF of all products and their allergens."""
-    products = pdf_list_products(db)
 
+    # Set language with "en" for English or "nl" for Dutch
+    language = "nl"
+
+    products = pdf_list_products(db)
     file_path = OUTPUT_DIR / "product_allergens.pdf"
 
     pdf = AllergenMatrixPDF(orientation="L")
-    pdf.set_language("nl")
-
+    pdf.set_language(language)
     pdf.generate_allergen_matrix_pdf(
         data=products,
         output_path=str(file_path),
-        language="nl",
+        language=language
     )
-
 
     return FileResponse(
         path=file_path,
