@@ -61,6 +61,7 @@ def download_products_pdf(db: Session = Depends(get_db)):
     file_path = OUTPUT_DIR / "product_allergens.pdf"
 
     pdf = AllergenMatrixPDF(orientation="L")
+    pdf.set_language("nl")
 
     pdf.generate_allergen_matrix_pdf(
         data=products,

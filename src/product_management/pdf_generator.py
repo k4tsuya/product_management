@@ -6,6 +6,15 @@ from fpdf import FPDF
 from src.product_management.allergens import ALLERGENS
 
 
+TEXTS = {
+    "en": { "title": "Allergen Matrix",
+           "footer": "Page ",
+    },
+    "nl": { "title": "Allergenen Lijst",
+           "footer": "Pagina "
+    }}
+
+
 @dataclass
 class ProductAllergenView:
     name: str
@@ -13,9 +22,16 @@ class ProductAllergenView:
 
 
 class AllergenMatrixPDF(FPDF):
+    def set_language(self, language: str) -> None:
+        if language not in {"nl", "en"}:
+            raise ValueError("language must be 'nl' or 'en'")
+        self.language = language
+        self.texts = TEXTS[language]
+
     def get_allergen_labels(self, language: str) -> dict[str, dict[str, str]]:
         if language not in {"nl", "en"}:
             raise ValueError("language must be 'nl' or 'en'")
+        language = language
         return {
             code: {
             "label": data[language],
@@ -38,7 +54,8 @@ class AllergenMatrixPDF(FPDF):
 
         # Title
         self.set_font("Arial", "B", 12)
-        self.cell(0, 10, "Allergen Matrix", ln=True)
+        self.cell(0, 10, f"{self.texts["title"]}", ln=True)
+
         self.ln(3)
 
         # Icon header row
@@ -89,7 +106,7 @@ class AllergenMatrixPDF(FPDF):
     def footer(self) -> None:
         self.set_y(-15)
         self.set_font("Arial", "I", 8)
-        self.cell(0, 10, f"Page {self.page_no()} / {{nb}}", align="C")
+        self.cell(0, 10, f"{self.texts["footer"]} {self.page_no()} / {{nb}}", ln=True, align="C")
 
     # ---------- Main generator ----------
     def generate_allergen_matrix_pdf(
