@@ -151,7 +151,7 @@ Planned extensions include:
 
 ---
 
-📦 Product data source
+## 📦 Product data source
 
 This project ships with sample product data for demo and development purposes.
 
