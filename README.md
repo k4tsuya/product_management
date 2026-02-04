@@ -102,7 +102,7 @@ pip install fastapi uvicorn sqlalchemy pydantic
 
 ### 1b. OPTIONAL: Set the preferred language for the generated pdf file.
 
-Set the `language` variable in the `generate_allergen_matrix_pdf()` function (main.py) to `'en'` (English) or `'nl'` (Dutch).
+Set the `language` variable in the `download_products_pdf()` function (main.py) to `'en'` (English) or `'nl'` (Dutch).
 
 ```
 language: str = "en"
